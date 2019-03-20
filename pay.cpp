@@ -3,15 +3,14 @@
 #include<iostream>
 #include<sstream>
 #include<iomanip>
+#include<vector>
 #include "person.h"
 #include "person.cpp"
 
+void readData(vector<person> &employeesvect,int &size);
+void writeData(vector<person> &employeesvect,int size);
 
-
-void readData(person employees[],int &size);
-void writeData(person employees[],int size);
-
-void readData(person employees[],int &size)
+void readData(vector<person> &employeesvect,int &size)
 {
     string lname;
     string fname;
@@ -30,21 +29,21 @@ void readData(person employees[],int &size)
             p.setLastName(lname);
             p.setHoursWorked(workhours);
             p.setPayRate(payRate);
-            employees[size]=p;
+            employeesvect.emplace_back(p);
             size++;
         }
         file.close();
     }
 }
 
-void writeData(person employees[],int size)
+void writeData(vector<person> &employeesvect,int size)
 {
     ofstream outfile;
     outfile<<setprecision(2)<<fixed;
     outfile.open("output.txt");
     for(int i=0;i<size;i++)
     {
-        outfile<<employees[i].fullName()<<" "<<employees[i].totalPay()<<endl;
+         outfile<<employeesvect[i].fullName()<<" "<<employeesvect[i].totalPay()<<endl;
     }
     outfile.close();
     
@@ -53,7 +52,7 @@ void writeData(person employees[],int size)
 int main()
 {
     int size=0;
-    person employees[20];
+   vector<person> employees;
     
     readData(employees,size);
     writeData(employees,size);
